@@ -36,11 +36,21 @@ app.get('/api/profiles/:id',  (req, res) => {
  });
 
 app.put('/api/profiles/', (req, res) => {
-    console.log(req.body);
+    console.log(req.body, 'body');
     let text = JSON.stringify(req.body); 
-    fs.appendFile("file.txt", text, (err, data) => {
-        if(err) {return "cannot write " + data; }
-    })
+    fs.readFile('models/profiles.json', function (err, data) {
+        var json = JSON.parse(data)
+        json["property"].push({text})
+        
+        //json.push(text)
+
+        console.log(typeof(json),json,'json')
+        fs.writeFile("models/profiles.json", JSON.stringify(json))
+     })
+    
+    ///fs.appendFile("file.txt", text, (err, data) => {
+        //if(err) {return "cannot write " + data; }
+    //})
     res.send("data received, thank you");
 });
 
