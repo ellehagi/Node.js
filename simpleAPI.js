@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const fs = require("fs");
+const { profile } = require('console');
 
 
 const profilesFile = path.join(__dirname ,"models", "profiles.json");
@@ -40,12 +41,12 @@ app.put('/api/profiles/', (req, res) => {
     let text = JSON.stringify(req.body); 
     fs.readFile('models/profiles.json', function (err, data) {
         var json = JSON.parse(data)
-        json["property"].push({text})
+        json["profile5"] = req.body
         
         //json.push(text)
-
-        console.log(typeof(json),json,'json')
-        fs.writeFile("models/profiles.json", JSON.stringify(json))
+        fs.writeFile("models/profiles.json", JSON.stringify(json), function (err, result) {
+       if (err) console.log('error' , err);
+        });
      })
     
     ///fs.appendFile("file.txt", text, (err, data) => {
@@ -53,6 +54,7 @@ app.put('/api/profiles/', (req, res) => {
     //})
     res.send("data received, thank you");
 });
+ 
 
 
 // 
